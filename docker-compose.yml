@@ -1,0 +1,39 @@
+services:
+  be-database:
+    image: postgres:13
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    env_file:
+      - .env
+    restart: on-failure
+    container_name: be-database
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    # volumes:
+    #   - ./pg_data:/var/lib/postgresql/data
+    networks:
+      - be-network
+  # be-server:
+  #   container_name: be-server
+  #   ports:
+  #     - "${SERVER_PORT}:${SERVER_PORT}"
+  #   env_file:
+  #     - .env
+  #   restart: always
+  #   depends_on:
+  #     be-database:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./src:/app/src
+  #     - ./prisma:/app/prisma
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   networks:
+  #     - be-network
+networks:
+  be-network:
+    driver: bridge
