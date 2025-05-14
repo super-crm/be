@@ -8,6 +8,7 @@ import { IsUserAlreadyExistsConstraint } from './auth/validators/is-user-already
 import { RepositoriesModule } from './repositories/repositories.module';
 import { RepositoriesManagerModule } from './repositories-manager/repositories-manager.module';
 import { GitHubApiModule } from './github-api/github-api.module';
+import { AppController } from './app.controller';
 
 const validationConstraints = [IsUserAlreadyExistsConstraint];
 
@@ -23,5 +24,6 @@ const validationConstraints = [IsUserAlreadyExistsConstraint];
     GitHubApiModule,
   ],
   providers: validationConstraints,
+  controllers: [AppController],
 })
 export class AppModule {}
